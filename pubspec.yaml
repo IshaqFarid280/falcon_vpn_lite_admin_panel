@@ -43,6 +43,7 @@ dependencies:
   get_it: ^7.6.4
   google_fonts: ^6.1.0
   url_strategy: ^0.2.0
+  file_picker: ^5.5.0
 
 dev_dependencies:
   flutter_test:

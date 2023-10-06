@@ -1,5 +1,4 @@
 
-import 'package:advanced_navigator/advanced_navigator.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_style.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/dashboard/dashboard_screen.dart';
@@ -9,7 +8,7 @@ import 'package:get/get.dart';
 import '../../../controllers/auth_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  static const String routeName = '/login_screen';
+  static const String routeName = '/login';
   LoginScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -71,11 +70,11 @@ class LoginScreen extends StatelessWidget {
                                 /// Email Field
                                 Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text("Email",
-                                      style: myStyleOxanium(16,
-                                        AppColorResources.primaryWhite,
-                                        FontWeight.w400,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Text("Email", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
+                                        Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400,),),
+                                      ],
                                     )),
 
                                 SizedBox(height: 8),
@@ -127,13 +126,13 @@ class LoginScreen extends StatelessWidget {
                                 /// Password Field
                                 Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Password",
-                                      style: myStyleOxanium(
-                                          16,
-                                          AppColorResources.primaryWhite,
-                                          FontWeight.w400),
-                                    )),
+                                    child: Row(
+                                      children: [
+                                        Text("Password", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400),),
+                                        Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400),),
+                                      ],
+                                    ),
+                                ),
                                 SizedBox(height: 8,),
 
                                 Obx(
@@ -194,8 +193,7 @@ class LoginScreen extends StatelessWidget {
                                   onTap: () async{
                                     // if(loginController.formKey.currentState!.validate()){
                                     // }
-                                    Get.toNamed(DashboardScreen.routeName);
-                                    // AdvancedNavigator.openNamed(context, DashboardScreen.routeName);
+                                    Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
                                   },
                                   title: "Login",
                                 ),
