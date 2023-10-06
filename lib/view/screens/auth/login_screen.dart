@@ -1,7 +1,6 @@
 
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_style.dart';
-import 'package:eye_vpn_lite_admin_panel/view/screens/dashboard/dashboard_screen.dart';
 import 'package:eye_vpn_lite_admin_panel/view/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,6 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-
   final loginController = Get.find<AuthController>();
 
   @override
@@ -85,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                                     controller: loginController.emailController,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'This filed must not be empty';
+                                        return 'This filed is required.';
                                       }
                                       return null;
                                     },
@@ -141,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                                     child: TextFormField(
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'This filed must not be empty';
+                                          return 'This filed is required.';
                                         }
                                         return null;
                                       },
@@ -189,14 +187,15 @@ class LoginScreen extends StatelessWidget {
                                 SizedBox(height: 30,),
 
                                 /// Login Button
+                                loginController.isLoading == false?
                                 CustomButton(
                                   onTap: () async{
-                                    // if(loginController.formKey.currentState!.validate()){
-                                    // }
-                                    Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
+                                    if(_formKey.currentState!.validate()){
+                                      loginController.loginData(context: context);
+                                    }
                                   },
                                   title: "Login",
-                                ),
+                                ):CircularProgressIndicator(color: AppColorResources.primaryGreen,),
                               ],
                             ),
                           ),

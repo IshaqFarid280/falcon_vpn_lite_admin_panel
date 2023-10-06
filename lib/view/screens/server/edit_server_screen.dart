@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'package:eye_vpn_lite_admin_panel/controllers/server_details_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_style.dart';
 import 'package:eye_vpn_lite_admin_panel/view/widgets/custom_button.dart';
@@ -13,7 +14,8 @@ import '../responsive/responsive.dart';
 
 class EditServerScreen extends StatefulWidget {
   static const String routeName = '/edit_server';
-  EditServerScreen({super.key});
+  final dynamic serverID;
+  EditServerScreen({super.key, this.serverID});
 
   @override
   State<EditServerScreen> createState() => _EditServerScreenState();
@@ -43,11 +45,42 @@ class _EditServerScreenState extends State<EditServerScreen> {
     }
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _load(reLoad: true, context: context);
+    });
+  }
+
+  /// For Load Data
+  _load({required bool reLoad, required BuildContext context}) async{
+    final Object? id = ModalRoute.of(context)!.settings.arguments;
+    await Get.find<ServerDetailsController>().getServerDetailsData(context: context, id: id.toString()).then((value) {
+      if(value == 200){
+        initialValueAssignToController();
+      }
+    });
+  }
+
+  initialValueAssignToController(){
+    _imagePath = serverDetailsController.serverDetailsResponseModel!.image ?? '';
+    editServerController.countryController.text = serverDetailsController.serverDetailsResponseModel!.country ?? '';
+    editServerController.usernameController.text = serverDetailsController.serverDetailsResponseModel!.username ?? '';
+    editServerController.passwordController.text = serverDetailsController.serverDetailsResponseModel!.password ?? '';
+    editServerController.configFileController.text = serverDetailsController.serverDetailsResponseModel!.config ?? '';
+  }
 
   final editServerController = Get.find<EditServerController>();
+  final serverDetailsController = Get.find<ServerDetailsController>();
 
   @override
   Widget build(BuildContext context) {
+    final Object? id = ModalRoute.of(context)!.settings.arguments;
+
+    log("Check Server ID ======> ${id}");
+
     return Scaffold(
       backgroundColor: AppColorResources.bgColor,
       appBar: AppBar(
@@ -178,45 +211,45 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                 SizedBox(height: 20,),
 
                                 /// Server Name
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Server Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
-                                ),
-
-                                SizedBox(height: 8),
-
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                    controller: editServerController.serverNameController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This filed is required';
-                                      }
-                                      return null;
-                                    },
-                                    cursorColor: AppColorResources.hintTextColor,
-                                    keyboardType: TextInputType.text,
-                                    textInputAction: TextInputAction.next,
-                                    style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                      hintText: "Enter server name",
-                                      hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(height: 20),
+                                // Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Text("Server Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
+                                // ),
+                                //
+                                // SizedBox(height: 8),
+                                //
+                                // SizedBox(
+                                //   width: double.infinity,
+                                //   child: TextFormField(
+                                //     controller: editServerController.serverNameController,
+                                //     validator: (value) {
+                                //       if (value == null || value.isEmpty) {
+                                //         return 'This filed is required';
+                                //       }
+                                //       return null;
+                                //     },
+                                //     cursorColor: AppColorResources.hintTextColor,
+                                //     keyboardType: TextInputType.text,
+                                //     textInputAction: TextInputAction.next,
+                                //     style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                //     decoration: InputDecoration(
+                                //       contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                //       hintText: "Enter server name",
+                                //       hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                //       border: OutlineInputBorder(
+                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                //           borderRadius: BorderRadius.circular(5)),
+                                //       enabledBorder: OutlineInputBorder(
+                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                //           borderRadius: BorderRadius.circular(5)),
+                                //       focusedBorder: OutlineInputBorder(
+                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                //           borderRadius: BorderRadius.circular(5)),
+                                //     ),
+                                //   ),
+                                // ),
+                                //
+                                // SizedBox(height: 20),
 
                                 /// Country Name
                                 Align(
@@ -308,8 +341,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
 
                                 SizedBox(height: 8,),
 
-                                Obx(
-                                      () => SizedBox(
+                                Obx(() => SizedBox(
                                     width: double.infinity,
                                     child: TextFormField(
                                       validator: (value) {

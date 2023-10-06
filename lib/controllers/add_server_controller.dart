@@ -1,21 +1,23 @@
-import 'dart:developer';
+import 'package:eye_vpn_lite_admin_panel/data/repository/add_server_repo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../data/datasource/remote/dio/dio_client.dart';
 import '../data/model/base_model/api_response.dart';
 import '../data/model/base_model/error_response.dart';
-import '../data/repository/auth_repo.dart';
-import '../view/screens/dashboard/dashboard_screen.dart';
 
-class AuthController extends GetxController{
-  var emailController = TextEditingController();
+class AddServerController extends GetxController{
+  var serverNameController = TextEditingController();
+  var countryController = TextEditingController();
+  var usernameController = TextEditingController();
   var passwordController = TextEditingController();
+  var configFileController = TextEditingController();
   final DioClient dioClient;
-  final AuthRepo authRepo;
+  final AddServerRepo addServerRepo;
   bool _isLoading = false;
 
-  AuthController({required this.dioClient, required this.authRepo});
+  AddServerController({required this.dioClient, required this.addServerRepo});
+
 
   RxBool obscureText = true.obs;
   Rx<String> errMsg = ''.obs;
@@ -31,31 +33,40 @@ class AuthController extends GetxController{
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    emailController.dispose();
+    serverNameController.dispose();
+    countryController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
+    configFileController.dispose();
   }
 
-  /// For Login
-  Future<dynamic> adminLogin({required dynamic email, required dynamic password, required BuildContext context}) async{
+  /// For Clear Text Field
+  clear({required BuildContext context}) async{
+    countryController.clear();
+    usernameController.clear();
+    passwordController.clear();
+    configFileController.clear();
+  }
+
+  /// For Add Server
+  Future<dynamic> addServer({dynamic country, dynamic username, dynamic password, dynamic config, dynamic image, required BuildContext context}) async{
     _isLoading = true;
     update();
 
-    ApiResponse apiResponse = await authRepo.adminLogin(email: email, password: password);
+    ApiResponse apiResponse = await addServerRepo.addServer(country: country, username: username, password: password, config: config, image: image);
 
-    if(apiResponse.response != null && apiResponse.response!.statusCode == 200){
-      _isLoading = false;
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 201) {
+
       Map map = apiResponse.response!.data;
+      update();
 
-      String token = '';
       String message = '';
 
       try{
         message = map["message"];
-        token = map["token"];
 
         if(kDebugMode){
           print("--------------message----------------------->>>>>$message");
-          print("--------------token----------------------->>>>>$token");
         }
 
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -65,45 +76,34 @@ class AuthController extends GetxController{
           duration: const Duration(seconds: 2),
           backgroundColor: Theme.of(context).primaryColor,
         ));
-
       }catch(e){
 
       }
-
-      if(token.isNotEmpty){
-        authRepo.saveUserToken(token);
-      }
       update();
     }
-
-    else{
-      _isLoading = false;
+    else {
       update();
-      if(apiResponse.response != null && apiResponse.response!.statusCode == 200){
-        ScaffoldMessenger.of(context).removeCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(apiResponse.response!.data["message"]),
-          elevation: 6.0,
-          duration: const Duration(seconds: 2),
-          backgroundColor: Colors.red,
-        ));
-      }
-
       String errorMessage;
-      if(apiResponse.error is String){
-        if(kDebugMode){
+      if (apiResponse.error is String) {
+        if (kDebugMode) {
           print(apiResponse.error.toString());
         }
         errorMessage = apiResponse.error.toString();
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('${errorMessage}'),
+          content: Text(apiResponse.response!.data["message"]),
+          elevation: 6.0,
+          duration: const Duration(seconds: 2),
+          backgroundColor: Theme.of(context).primaryColor,
+        ));
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(errorMessage),
           backgroundColor: Colors.red,
         ));
-      }
-      else{
+      } else {
         ErrorResponse errorResponse = apiResponse.error;
-        if(kDebugMode){
+        if (kDebugMode) {
           print(errorResponse.error![0].message);
         }
         errorMessage = errorResponse.error![0].message;
@@ -115,36 +115,8 @@ class AuthController extends GetxController{
       }
       update();
     }
-    if (kDebugMode) {
-      print("response.statusCode${apiResponse.response!.statusCode}");
-    }
     return apiResponse.response!.statusCode;
   }
 
-  /// For auth token
-  Future authToken(String authToken ) async{
-    authRepo.saveAuthToken(authToken);
-    update();
-  }
-
-  /// Get user token
-  dynamic getUserToken(){
-    log(authRepo.getUserToken());
-    return authRepo.getUserToken();
-  }
-
-
-  /// For Admin Login Data
-  loginData({required BuildContext context}) async{
-    await adminLogin(
-      email: emailController.text.toString(),
-      password: passwordController.text.toString(),
-      context: context,
-    ).then((value) {
-      if(value == 200){
-        Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
-      }
-    });
-  }
 
 }

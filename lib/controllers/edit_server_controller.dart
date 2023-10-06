@@ -16,6 +16,15 @@ class EditServerController extends GetxController{
     obscureText.value = !obscureText.value;
   }
 
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    serverNameController.dispose();
+    countryController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    configFileController.dispose();
+  }
 
 }

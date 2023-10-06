@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'package:eye_vpn_lite_admin_panel/controllers/add_server_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_style.dart';
 import 'package:eye_vpn_lite_admin_panel/view/widgets/custom_button.dart';
@@ -8,11 +9,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../../../controllers/create_server_controller.dart';
+import '../dashboard/dashboard_screen.dart';
 import '../responsive/responsive.dart';
 
 class CreateServerScreen extends StatefulWidget {
-  static const String routeName = '/create_server';
+  static const String routeName = '/add_server';
   CreateServerScreen({super.key});
 
   @override
@@ -43,8 +44,23 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
     }
   }
 
+  /// For Add Server Data
+  addServerData({required BuildContext context}) async{
+    await addServerController.addServer(
+      country: addServerController.countryController.text.toString(),
+      username: addServerController.usernameController.text.toString(),
+      password: addServerController.passwordController.text.toString(),
+      config: addServerController.configFileController.text.toString(),
+      image: _imagePath.toString(),
+      context: context,
+    ).then((value) {
+      if(value == 201){
+        addServerController.clear(context: context);
+      }
+    });
+  }
 
-  final createServerController = Get.find<CreateServerController>();
+  final addServerController = Get.find<AddServerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -178,50 +194,50 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                 SizedBox(height: 20,),
 
                                 /// Server Name
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        Text("Server Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
-                                        Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400,),),
-                                      ],
-                                    ),
-                                ),
-
-                                SizedBox(height: 8),
-
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                    controller: createServerController.serverNameController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This filed is required';
-                                      }
-                                      return null;
-                                    },
-                                    cursorColor: AppColorResources.hintTextColor,
-                                    keyboardType: TextInputType.text,
-                                    textInputAction: TextInputAction.next,
-                                    style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                      hintText: "Enter server name",
-                                      hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(height: 20),
+                                // Align(
+                                //     alignment: Alignment.centerLeft,
+                                //     child: Row(
+                                //       children: [
+                                //         Text("Server Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
+                                //         Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400,),),
+                                //       ],
+                                //     ),
+                                // ),
+                                //
+                                // SizedBox(height: 8),
+                                //
+                                // SizedBox(
+                                //   width: double.infinity,
+                                //   child: TextFormField(
+                                //     controller: createServerController.serverNameController,
+                                //     validator: (value) {
+                                //       if (value == null || value.isEmpty) {
+                                //         return 'This filed is required';
+                                //       }
+                                //       return null;
+                                //     },
+                                //     cursorColor: AppColorResources.hintTextColor,
+                                //     keyboardType: TextInputType.text,
+                                //     textInputAction: TextInputAction.next,
+                                //     style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                //     decoration: InputDecoration(
+                                //       contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                //       hintText: "Enter server name",
+                                //       hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                //       border: OutlineInputBorder(
+                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                //           borderRadius: BorderRadius.circular(5)),
+                                //       enabledBorder: OutlineInputBorder(
+                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                //           borderRadius: BorderRadius.circular(5)),
+                                //       focusedBorder: OutlineInputBorder(
+                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                //           borderRadius: BorderRadius.circular(5)),
+                                //     ),
+                                //   ),
+                                // ),
+                                //
+                                // SizedBox(height: 20),
 
                                 /// Country Name
                                 Align(
@@ -239,7 +255,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                 SizedBox(
                                   width: double.infinity,
                                   child: TextFormField(
-                                    controller: createServerController.countryController,
+                                    controller: addServerController.countryController,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'This filed is required';
@@ -285,7 +301,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                 SizedBox(
                                   width: double.infinity,
                                   child: TextFormField(
-                                    controller: createServerController.usernameController,
+                                    controller: addServerController.usernameController,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'This filed is required';
@@ -341,17 +357,17 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                       cursorColor: AppColorResources.hintTextColor,
                                       keyboardType: TextInputType.text,
                                       textInputAction: TextInputAction.next,
-                                      obscureText: createServerController.obscureText.value,
-                                      controller: createServerController.passwordController,
+                                      obscureText: addServerController.obscureText.value,
+                                      controller: addServerController.passwordController,
                                       obscuringCharacter: '*',
                                       style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                       decoration: InputDecoration(
                                         suffixIcon: GestureDetector(
                                           onTap: () {
-                                            createServerController.changeIcon();
+                                            addServerController.changeIcon();
                                           },
                                           child: Icon(
-                                            createServerController.obscureText.value ? Icons.visibility_off_rounded : Icons.visibility,
+                                            addServerController.obscureText.value ? Icons.visibility_off_rounded : Icons.visibility,
                                             color: AppColorResources.hintTextColor,
                                             size: 18,
                                           ),
@@ -391,7 +407,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                 SizedBox(
                                   width: double.infinity,
                                   child: TextFormField(
-                                    controller: createServerController.configFileController,
+                                    controller: addServerController.configFileController,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'This filed is required';
@@ -422,13 +438,12 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
 
                                 SizedBox(height: 30,),
 
-                                /// Login Button
+                                /// Add Server Button
                                 CustomButton(
                                   onTap: () async{
-                                    // if(loginController.formKey.currentState!.validate()){
-                                    // }
-                                    // Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
-                                    // AdvancedNavigator.openNamed(context, DashboardScreen.routeName);
+                                    if(_formKey.currentState!.validate()){
+                                      addServerData(context: context);
+                                    }
                                   },
                                   title: "Add Server",
                                 ),

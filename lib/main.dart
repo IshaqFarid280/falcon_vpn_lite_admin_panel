@@ -1,7 +1,7 @@
 import 'package:eye_vpn_lite_admin_panel/utils/app_constants.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/auth/login_screen.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/dashboard/dashboard_screen.dart';
-import 'package:eye_vpn_lite_admin_panel/view/screens/server/create_server_screen.dart';
+import 'package:eye_vpn_lite_admin_panel/view/screens/server/add_server_screen.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/server/edit_server_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
