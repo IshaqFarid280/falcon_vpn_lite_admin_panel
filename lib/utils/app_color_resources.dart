@@ -34,6 +34,7 @@ class AppColorResources {
   static const Color primaryGreenAccent = Color(0xff4BA55F);
   static const Color lightBlue = Color(0xffE1EBEF);
   static const Color cardColor = Color(0xff0E2232);
+  static const Color drawerItemColor = Color(0xff949494);
   // static const Color redColor = Colors.red;
 
 

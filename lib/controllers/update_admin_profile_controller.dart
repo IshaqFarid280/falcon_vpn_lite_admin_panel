@@ -1,5 +1,4 @@
-import 'package:eye_vpn_lite_admin_panel/controllers/view_all_server_controller.dart';
-import 'package:eye_vpn_lite_admin_panel/data/repository/server_delete_repo.dart';
+import 'package:eye_vpn_lite_admin_panel/data/repository/update_admin_profile_repo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,21 +6,21 @@ import '../data/datasource/remote/dio/dio_client.dart';
 import '../data/model/base_model/api_response.dart';
 import '../data/model/base_model/error_response.dart';
 
-class ServerDeleteController extends GetxController{
+class UpdateAdminProfileController extends GetxController{
   final DioClient dioClient;
-  final ServerDeleteRepo serverDeleteRepo;
+  final UpdateAdminProfileRepo updateAdminProfileRepo;
   bool _isLoading = false;
 
-  ServerDeleteController({required this.dioClient, required this.serverDeleteRepo});
+  UpdateAdminProfileController({required this.dioClient, required this.updateAdminProfileRepo});
 
-  bool get isLoading => _isLoading;
+  bool get inLoading => _isLoading;
 
-  /// For Server Delete
-  Future<dynamic> serverDelete({dynamic id, required BuildContext context}) async{
+  /// For Update Admin Profile
+  Future<dynamic> updateAdminProfile({dynamic email, dynamic name, required BuildContext context}) async{
     _isLoading = true;
     update();
 
-    ApiResponse apiResponse = await serverDeleteRepo.serverDelete(id: id.toString());
+    ApiResponse apiResponse = await updateAdminProfileRepo.updateAdminProfile(email: email, name: name);
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
 
@@ -86,16 +85,5 @@ class ServerDeleteController extends GetxController{
     return apiResponse.response!.statusCode;
   }
 
-  /// For Delete Server
-  deleteServer({required BuildContext context, dynamic id}) async{
-    await serverDelete(context: context, id: id.toString()).then((value) {
-      if(value == 200){
-        Get.find<ViewAllServerController>().resetPage();
-        Get.find<ViewAllServerController>().clearList();
-        Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: 1);
-        Get.back();
-      }
-    });
-  }
 
 }

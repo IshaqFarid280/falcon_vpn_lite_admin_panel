@@ -56,6 +56,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
     ).then((value) {
       if(value == 201){
         addServerController.clear(context: context);
+        _logoBase64 = null;
       }
     });
   }

@@ -65,11 +65,30 @@ class _EditServerScreenState extends State<EditServerScreen> {
   }
 
   initialValueAssignToController(){
-    _imagePath = serverDetailsController.serverDetailsResponseModel!.image ?? '';
+    _logoBase64 = serverDetailsController.serverDetailsResponseModel!.image ?? '';
     editServerController.countryController.text = serverDetailsController.serverDetailsResponseModel!.country ?? '';
     editServerController.usernameController.text = serverDetailsController.serverDetailsResponseModel!.username ?? '';
     editServerController.passwordController.text = serverDetailsController.serverDetailsResponseModel!.password ?? '';
     editServerController.configFileController.text = serverDetailsController.serverDetailsResponseModel!.config ?? '';
+  }
+
+  /// For Add Server Data
+  serverUpdate({required BuildContext context}) async{
+    final Object? id = ModalRoute.of(context)!.settings.arguments;
+    await editServerController.serverUpdate(
+      id: id.toString(),
+      country: editServerController.countryController.text.toString(),
+      username: editServerController.usernameController.text.toString(),
+      password: editServerController.passwordController.text.toString(),
+      config: editServerController.configFileController.text.toString(),
+      image: _imagePath.toString(),
+      context: context,
+    ).then((value) {
+      if(value == 200){
+        editServerController.clear(context: context);
+        _logoBase64 = null;
+      }
+    });
   }
 
   final editServerController = Get.find<EditServerController>();
@@ -432,10 +451,9 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                 /// Login Button
                                 CustomButton(
                                   onTap: () async{
-                                    // if(loginController.formKey.currentState!.validate()){
-                                    // }
-                                    // Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
-                                    // AdvancedNavigator.openNamed(context, DashboardScreen.routeName);
+                                    if(_formKey.currentState!.validate()){
+                                      serverUpdate(context: context);
+                                    }
                                   },
                                   title: "Update Server",
                                 ),

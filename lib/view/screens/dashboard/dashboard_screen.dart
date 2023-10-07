@@ -1,11 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eye_vpn_lite_admin_panel/controllers/update_admin_profile_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/view_all_server_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/auth/login_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../controllers/server_delete_controller.dart';
 import '../../../utils/app_style.dart';
+import '../../widgets/logout_alert_dialogue.dart';
 import '../../widgets/reusable_delete_alert_dialogue.dart';
 import '../../widgets/reusable_divider.dart';
 import '../responsive/responsive.dart';
@@ -54,6 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   final serverDeleteController = Get.find<ServerDeleteController>();
+  final updateAdminProfileController = Get.find<UpdateAdminProfileController>();
 
   @override
   void dispose() {
@@ -99,7 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           /// For Log out
           GestureDetector(
               onTap: (){
-                Get.offNamedUntil(LoginScreen.routeName, (route) => false);
+                logoutAlert(context);
               },
               child: Icon(Icons.power_settings_new_outlined, size: ResponsiveUI.isDesktop(context)?30:20, color: AppColorResources.primaryRed,)),
 
@@ -297,17 +302,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           Expanded(
                                             flex: 4,
                                             child: Container(
-                                              padding: EdgeInsets.all(8),
+                                              padding: EdgeInsets.only(top: 8, bottom: 8, right: 8, left: 15),
                                               alignment: Alignment.centerLeft,
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
-                                                  Container(
+                                                  SizedBox(
                                                     height: 25,
                                                     width: 35,
                                                     child: ClipRRect(
                                                         borderRadius: BorderRadius.circular(5),
-                                                        child: item.image != null?Image.network('${item.image}', fit: BoxFit.cover,):Image.asset('assets/images/placeholder.jpg', fit: BoxFit.cover,)),
+                                                        child: CachedNetworkImage(
+                                                          imageUrl: "${item.image}",
+                                                          placeholder: (context, url) => Opacity(
+                                                            opacity: 0.8,
+                                                            child: Shimmer.fromColors(
+                                                                baseColor: AppColorResources.drawerItemColor,
+                                                                highlightColor: AppColorResources.primaryWhite,
+                                                                direction: ShimmerDirection.ltr,
+                                                                child: const SizedBox(
+                                                                  height: 25,
+                                                                  width: 35,
+                                                                )),
+                                                          ),
+                                                          errorWidget: (context, url, error) => Container(
+                                                              height: 25,
+                                                              width: 35,
+                                                              child: Icon(Icons.image_outlined, color: AppColorResources.primaryColor)),
+                                                        ),
+                                                    ),
                                                   ),
                                                   SizedBox(width: 8,),
                                                   Text("${item.country}", style: myStyleOxanium(15, AppColorResources.primaryBlack, FontWeight.w400),),
@@ -390,9 +413,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                         reusableDeleteAlertDialogue(context, deleteItemName: 'server',
                                                           onTap: () {
                                                             serverDeleteController.deleteServer(context: context, id: item.id.toString());
-                                                            Get.find<ViewAllServerController>().resetPage();
-                                                            Get.find<ViewAllServerController>().clearList();
-                                                            _load(reLoad: true, context: context, pageNo: 1);
+                                                            // Get.find<ViewAllServerController>().resetPage();
+                                                            // Get.find<ViewAllServerController>().clearList();
+                                                            // _load(reLoad: true, context: context, pageNo: 1);
                                                           },
                                                         );
                                                       },

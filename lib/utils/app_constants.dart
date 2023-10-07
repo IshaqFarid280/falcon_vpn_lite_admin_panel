@@ -14,6 +14,8 @@ class AppConstants {
   static const String getServerUrl = '/api/admin/servers/list';
   static const String serverDetailsUrl = '/api/admin/servers/show/';
   static const String serverDeleteUrl = '/api/admin/servers/delete/';
+  static const String serverUpdateUrl = '/api/admin/servers/update/';
+  static const String updateServerUrl = '/api/admin/update/1';
 
 
   /// SharePreference
