@@ -90,6 +90,8 @@ class ServerDeleteController extends GetxController{
   deleteServer({required BuildContext context, dynamic id}) async{
     await serverDelete(context: context, id: id.toString()).then((value) {
       if(value == 200){
+        Get.find<ViewAllServerController>().resetPage();
+        Get.find<ViewAllServerController>().clearList();
         Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: 1, paginate: 25);
         Get.back();
       }

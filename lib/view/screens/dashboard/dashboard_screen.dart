@@ -411,7 +411,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                       onTap: (){
                                                         reusableDeleteAlertDialogue(context, deleteItemName: 'server',
                                                           onTap: () {
+                                                          setState(() {
                                                             serverDeleteController.deleteServer(context: context, id: item.id.toString());
+                                                          });
+
                                                             // Get.find<ViewAllServerController>().resetPage();
                                                             // Get.find<ViewAllServerController>().clearList();
                                                             // _load(reLoad: true, context: context, pageNo: 1);
