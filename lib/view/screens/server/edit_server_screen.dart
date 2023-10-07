@@ -12,6 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../controllers/edit_server_controller.dart';
+import '../../../controllers/view_all_server_controller.dart';
+import '../dashboard/dashboard_screen.dart';
 import '../responsive/responsive.dart';
 
 class EditServerScreen extends StatefulWidget {
@@ -87,11 +89,12 @@ class _EditServerScreenState extends State<EditServerScreen> {
       username: editServerController.usernameController.text.toString(),
       password: editServerController.passwordController.text.toString(),
       config: editServerController.configFileController.text.toString(),
-      image: _imagePath.toString(),
+      image: _imagePath != null ?_imagePath.toString():apiImage,
       context: context,
     ).then((value) {
       if(value == 200){
         editServerController.clear(context: context);
+        Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: 1, paginate: 25);
         _logoBase64 = null;
       }
     });
@@ -117,7 +120,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
           /// For Back
           GestureDetector(
             onTap: (){
-              Get.back();
+              Get.toNamed(DashboardScreen.routeName);
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -207,7 +210,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                             child: ClipOval(
                                               child: CachedNetworkImage(
                                                 imageUrl: "${apiImage}",
-                                                fit: BoxFit.fitHeight,
+                                                fit: BoxFit.fill,
                                                 placeholder: (context, url) => Opacity(
                                                   opacity: 0.8,
                                                   child: Shimmer.fromColors(
@@ -230,7 +233,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                           ),
 
                                         ),
-                                        _logoBase64 != null?Positioned(
+                                        _logoBase64 != null|| apiImage != null?Positioned(
                                           bottom: 0,
                                           left: 0,
                                           right: -45,

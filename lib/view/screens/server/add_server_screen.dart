@@ -78,7 +78,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
           /// For Back
           GestureDetector(
               onTap: (){
-                Get.back();
+                Get.toNamed(DashboardScreen.routeName);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
