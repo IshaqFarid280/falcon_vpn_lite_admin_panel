@@ -16,6 +16,7 @@ class ViewAllServerController extends GetxController{
   List<ViewAllServerData> _allServerList = [];
   List<ViewAllServerData>? _newServerList;
   int _page = 1;
+  int _paginate = 25;
 
 
   /// Getter
@@ -24,6 +25,7 @@ class ViewAllServerController extends GetxController{
   List<ViewAllServerData> get allServerList => _allServerList;
   List<ViewAllServerData>? get newServerList => _newServerList;
   int get page => _page;
+  int get paginate => _paginate;
 
 
   /// For All Products pagination
@@ -31,6 +33,7 @@ class ViewAllServerController extends GetxController{
   /// For Reset Page
   void resetPage() {
     _page = 1;
+    _paginate = 25;
     update();
   }
 
@@ -48,12 +51,12 @@ class ViewAllServerController extends GetxController{
 
 
   /// For get all products data
-  Future<List<ViewAllServerData>?> getAllServerData({required BuildContext context, dynamic pageNo}) async {
+  Future<List<ViewAllServerData>?> getAllServerData({required BuildContext context, dynamic pageNo, dynamic paginate}) async {
 
     _isLoading = true;
     update();
 
-    ApiResponse apiResponse = await viewAllServerRepo.getAllServerData(page: pageNo.toString());
+    ApiResponse apiResponse = await viewAllServerRepo.getAllServerData(page: pageNo.toString(), paginate: paginate.toString());
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
 

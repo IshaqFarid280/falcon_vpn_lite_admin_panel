@@ -9,6 +9,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../../../controllers/view_all_server_controller.dart';
 import '../dashboard/dashboard_screen.dart';
 import '../responsive/responsive.dart';
 
@@ -56,6 +57,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
     ).then((value) {
       if(value == 201){
         addServerController.clear(context: context);
+        Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: 1, paginate: 25);
         _logoBase64 = null;
       }
     });

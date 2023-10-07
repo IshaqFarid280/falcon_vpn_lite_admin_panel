@@ -11,12 +11,13 @@ class ViewAllServerRepo{
   ViewAllServerRepo({required this.dioClient,required this.sharedPreferences});
 
   /// For Get All Server
-  Future<ApiResponse> getAllServerData({dynamic page}) async {
+  Future<ApiResponse> getAllServerData({dynamic page, dynamic paginate}) async {
     try {
       dynamic response = await dioClient.get(
         AppConstants.getServerUrl,
         queryParameters: {
           "page": page,
+          'paginate': paginate,
         },
         options: Options(headers: {
           "Content-Type": "application/json",

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/update_admin_profile_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/view_all_server_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
-import 'package:eye_vpn_lite_admin_panel/view/screens/auth/login_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,7 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   /// For Load Data
   _load({required bool reLoad, required BuildContext context, required dynamic pageNo}) async{
-    await Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: pageNo.toString());
+    await Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: pageNo.toString(), paginate: 25);
   }
 
   final serverDeleteController = Get.find<ServerDeleteController>();
@@ -287,7 +286,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               if (index < viewAllServerController.allServerList.length) {
-                                final item = viewAllServerController.allServerList[index];
+                                final item = viewAllServerController.allServerList.reversed.toList()[index];
                                 return Column(
                                   children: [
                                     Container(

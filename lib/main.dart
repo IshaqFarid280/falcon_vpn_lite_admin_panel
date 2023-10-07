@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: LoginScreen.routeName, page: () => LoginScreen()),
         GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen(), transition: Transition.rightToLeft, transitionDuration: Duration(milliseconds: 500)),
-        GetPage(name: CreateServerScreen.routeName, page: () => CreateServerScreen(), transition: Transition.rightToLeft, transitionDuration: Duration(milliseconds: 500)),
+        GetPage(name: CreateServerScreen.routeName, page: () => CreateServerScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
         GetPage(name: EditServerScreen.routeName, page: () => EditServerScreen(), transition: Transition.rightToLeft, transitionDuration: Duration(milliseconds: 500)),
       ],
     );

@@ -65,7 +65,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
   }
 
   initialValueAssignToController(){
-    _logoBase64 = serverDetailsController.serverDetailsResponseModel!.image ?? '';
+    _imagePath = serverDetailsController.serverDetailsResponseModel!.image ?? '';
     editServerController.countryController.text = serverDetailsController.serverDetailsResponseModel!.country ?? '';
     editServerController.usernameController.text = serverDetailsController.serverDetailsResponseModel!.username ?? '';
     editServerController.passwordController.text = serverDetailsController.serverDetailsResponseModel!.password ?? '';
