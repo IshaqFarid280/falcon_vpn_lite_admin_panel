@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/server_details_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_style.dart';
@@ -9,6 +10,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../controllers/edit_server_controller.dart';
 import '../responsive/responsive.dart';
 
@@ -26,6 +28,8 @@ class _EditServerScreenState extends State<EditServerScreen> {
   dynamic _logoBase64;
   dynamic _pickedFile;
   dynamic _imagePath;
+
+  dynamic apiImage;
 
 
   void _chooseImage() async {
@@ -65,11 +69,13 @@ class _EditServerScreenState extends State<EditServerScreen> {
   }
 
   initialValueAssignToController(){
-    _imagePath = serverDetailsController.serverDetailsResponseModel!.image ?? '';
-    editServerController.countryController.text = serverDetailsController.serverDetailsResponseModel!.country ?? '';
-    editServerController.usernameController.text = serverDetailsController.serverDetailsResponseModel!.username ?? '';
-    editServerController.passwordController.text = serverDetailsController.serverDetailsResponseModel!.password ?? '';
-    editServerController.configFileController.text = serverDetailsController.serverDetailsResponseModel!.config ?? '';
+    setState(() {
+      apiImage = serverDetailsController.serverDetailsResponseModel!.image ?? '';
+      editServerController.countryController.text = serverDetailsController.serverDetailsResponseModel!.country ?? '';
+      editServerController.usernameController.text = serverDetailsController.serverDetailsResponseModel!.username ?? '';
+      editServerController.passwordController.text = serverDetailsController.serverDetailsResponseModel!.password ?? '';
+      editServerController.configFileController.text = serverDetailsController.serverDetailsResponseModel!.config ?? '';
+    });
   }
 
   /// For Add Server Data
@@ -188,20 +194,41 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                             height: ResponsiveUI.isDesktop(context) ? 80 : 70,
                                             width: ResponsiveUI.isDesktop(context) ? 80 : 70,
                                             fit: BoxFit.cover,
-                                          ) : Container(
+                                          ) :
+                                          Container(
                                             alignment: Alignment.center,
                                             height: ResponsiveUI.isDesktop(context) ? 80 : 70,
                                             width: ResponsiveUI.isDesktop(context) ? 80 : 70,
                                             decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppColorResources.circleColor,
-                                                border: Border.all(width: 1, color: AppColorResources.primaryWhite)),
-                                            child: Icon(
-                                              Icons.camera_alt_rounded,
-                                              color: AppColorResources.primaryColor,
-                                              size: 25,
+                                               shape: BoxShape.rectangle,
+                                              color: AppColorResources.circleColor,
+                                              border: Border.all(width: 1, color: AppColorResources.primaryWhite),
+                                            ),
+                                            child: ClipOval(
+                                              child: CachedNetworkImage(
+                                                imageUrl: "${apiImage}",
+                                                fit: BoxFit.fitHeight,
+                                                placeholder: (context, url) => Opacity(
+                                                  opacity: 0.8,
+                                                  child: Shimmer.fromColors(
+                                                    baseColor: AppColorResources.drawerItemColor,
+                                                    highlightColor: AppColorResources.primaryWhite,
+                                                    direction: ShimmerDirection.ltr,
+                                                    child: const SizedBox(
+                                                      height: 25,
+                                                      width: 35,
+                                                    ),
+                                                  ),
+                                                ),
+                                                errorWidget: (context, url, error) => Container(
+                                                  height: 25,
+                                                  width: 35,
+                                                  child: Icon(Icons.image_outlined, color: AppColorResources.primaryColor),
+                                                ),
+                                              ),
                                             ),
                                           ),
+
                                         ),
                                         _logoBase64 != null?Positioned(
                                           bottom: 0,
