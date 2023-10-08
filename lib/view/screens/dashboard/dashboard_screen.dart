@@ -25,6 +25,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final ScrollController scrollController = ScrollController();
+  final serverDeleteController = Get.find<ServerDeleteController>();
+  final updateAdminProfileController = Get.find<UpdateAdminProfileController>();
 
   @override
   void initState() {
@@ -56,8 +58,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     await Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: pageNo.toString(), paginate: 25);
   }
 
-  final serverDeleteController = Get.find<ServerDeleteController>();
-  final updateAdminProfileController = Get.find<UpdateAdminProfileController>();
+  /// For password star format
+  String maskPassword(String password) {
+    return '*' * password.length;
+  }
 
   @override
   void dispose() {
@@ -222,12 +226,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 child: Container(
                                   padding: EdgeInsets.all(8),
                                   alignment: Alignment.center,
-                                  child: Text(
-                                    "Password",
-                                    style: myStyleOxanium(
-                                        16,
-                                        AppColorResources.primaryBlack,
-                                        FontWeight.w600),
+                                  child: Text("Password",
+                                    style: myStyleOxanium(16, AppColorResources.primaryBlack, FontWeight.w600),
                                   ),
                                 ),
                               ),
@@ -240,10 +240,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     "Protocol",
-                                    style: myStyleOxanium(
-                                        16,
-                                        AppColorResources.primaryBlack,
-                                        FontWeight.w600),
+                                    style: myStyleOxanium(16, AppColorResources.primaryBlack, FontWeight.w600),
                                   ),
                                 ),
                               ),
@@ -257,10 +254,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     "Action",
-                                    style: myStyleOxanium(
-                                        16,
-                                        AppColorResources.primaryBlack,
-                                        FontWeight.w500),
+                                    style: myStyleOxanium(16, AppColorResources.primaryBlack, FontWeight.w500),
                                   ),
                                 ),
                               ),
@@ -364,7 +358,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             child: Container(
                                               padding: EdgeInsets.all(8),
                                               alignment: Alignment.center,
-                                              child: Text("${item.password}", style: myStyleOxanium(15, AppColorResources.primaryBlack, FontWeight.w400),),
+                                              child: Text("${maskPassword(item.password)}", style: myStyleOxanium(15, AppColorResources.primaryBlack, FontWeight.w400),),
                                             ),
                                           ),
 
@@ -375,7 +369,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               padding: EdgeInsets.all(8),
                                               //color: AppColorResources.secondaryGreenAccent,
                                               alignment: Alignment.center,
-                                              child: Text("${item.config}", style: myStyleOxanium(15, AppColorResources.primaryBlack, FontWeight.w400),),
+                                              child: Text("${item.config}", style: myStyleOxanium(15, AppColorResources.primaryBlack, FontWeight.w400),
+                                                maxLines: 2,
+                                                textAlign: TextAlign.justify,),
                                             ),
                                           ),
 
@@ -414,10 +410,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                           setState(() {
                                                             serverDeleteController.deleteServer(context: context, id: item.id.toString());
                                                           });
-
-                                                            // Get.find<ViewAllServerController>().resetPage();
-                                                            // Get.find<ViewAllServerController>().clearList();
-                                                            // _load(reLoad: true, context: context, pageNo: 1);
                                                           },
                                                         );
                                                       },

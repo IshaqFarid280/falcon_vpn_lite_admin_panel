@@ -58,7 +58,9 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
       if(value == 201){
         addServerController.clear(context: context);
         Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: 1, paginate: 25);
-        _logoBase64 = null;
+        setState(() {
+          _logoBase64 = null;
+        });
       }
     });
   }
@@ -421,6 +423,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                     keyboardType: TextInputType.text,
                                     textInputAction: TextInputAction.done,
                                     maxLines: null,
+                                    textAlign: TextAlign.justify,
                                     style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
