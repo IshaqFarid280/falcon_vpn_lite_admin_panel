@@ -16,6 +16,7 @@ class AppConstants {
   static const String serverDeleteUrl = '/api/admin/servers/delete/';
   static const String serverUpdateUrl = '/api/admin/servers/update/';
   static const String updateServerUrl = '/api/admin/update/1';
+  static const String adminProfileUrl = '/api/admin/profile';
 
 
   /// SharePreference

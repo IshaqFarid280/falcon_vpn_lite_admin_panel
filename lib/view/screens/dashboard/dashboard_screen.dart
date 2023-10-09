@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../controllers/admin_profile_controller.dart';
 import '../../../controllers/server_delete_controller.dart';
 import '../../../utils/app_style.dart';
 import '../../widgets/logout_alert_dialogue.dart';
@@ -56,6 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   /// For Load Data
   _load({required bool reLoad, required BuildContext context, required dynamic pageNo}) async{
     await Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: pageNo.toString(), paginate: 25);
+    await Get.find<AdminProfileController>().getAdminProfile(context: context);
   }
 
   /// For password star format
@@ -72,6 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColorResources.bgColor,
       appBar: AppBar(
@@ -85,21 +88,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
         actions: [
           Icon(Icons.person_outline_outlined, size: ResponsiveUI.isDesktop(context)?30:20, color: AppColorResources.primaryGreen,),
           SizedBox(width: 10,),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Admin", style: myStyleOxanium(
-                  ResponsiveUI.isDesktop(context)?15:13,
-                  AppColorResources.primaryWhite,
-                  FontWeight.w600),
-              ),
-              Text("admin@gmail.com", style: myStyleOxanium(
-                  ResponsiveUI.isDesktop(context)?14:12,
-                  AppColorResources.primaryWhite,
-                  FontWeight.w600),
-              ),
-            ],
+          GetBuilder<AdminProfileController>(
+            builder: (adminProfileController) {
+              return adminProfileController.adminProfileResponseModel != null?
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("${adminProfileController.adminProfileResponseModel!.name}", style: myStyleOxanium(
+                      ResponsiveUI.isDesktop(context)?15:13,
+                      AppColorResources.primaryWhite,
+                      FontWeight.w600),
+                  ),
+                  Text("${adminProfileController.adminProfileResponseModel!.email}", style: myStyleOxanium(
+                      ResponsiveUI.isDesktop(context)?14:12,
+                      AppColorResources.primaryWhite,
+                      FontWeight.w600),
+                  ),
+                ],
+              ):Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                period: const Duration(milliseconds: 2000),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 100,
+                      color: AppColorResources.primaryWhite,
+                    ),
+                    SizedBox(height: 3,),
+                    Container(
+                      height: 10,
+                      width: 100,
+                      color: AppColorResources.primaryWhite,
+                    ),
+                  ],
+                ),
+              );
+            }
           ),
 
           SizedBox(width: 10,),
