@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/update_admin_profile_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/view_all_server_controller.dart';
@@ -171,7 +172,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                             GestureDetector(
                               onTap: (){
-                                Get.toNamed(CreateServerScreen.routeName);
+                               // Get.toNamed(CreateServerScreen.routeName);
+                                context.beamToNamed('/add-server');
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -416,7 +418,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     /// For Edit
                                                     InkWell(
                                                       onTap: (){
-                                                        Get.toNamed(EditServerScreen.routeName, arguments: item.id);
+                                                       // Get.toNamed(EditServerScreen.routeName, arguments: item.id);
+                                                        context.beamToNamed('/edit-server',data: {
+                                                          "id": item.id.toString()
+                                                        });
                                                       },
                                                       child: Container(
                                                         height: ResponsiveUI.isDesktop(context) ? 30 : 24,

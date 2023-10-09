@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'package:beamer/beamer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/server_details_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
@@ -122,7 +123,8 @@ class _EditServerScreenState extends State<EditServerScreen> {
           /// For Back
           GestureDetector(
             onTap: (){
-              Get.toNamed(DashboardScreen.routeName);
+             // Get.toNamed(DashboardScreen.routeName);
+              context.beamToNamed('/dashboard');
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
