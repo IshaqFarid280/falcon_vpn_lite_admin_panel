@@ -1,8 +1,8 @@
 import 'package:beamer/beamer.dart';
-import 'package:eye_vpn_lite_admin_panel/route_location/main_screen_locations.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_constants.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/auth/login_screen.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/dashboard/dashboard_screen.dart';
+import 'package:eye_vpn_lite_admin_panel/view/screens/route_service/main_route.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/server/add_server_screen.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/server/edit_server_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,32 +22,32 @@ void main() async{
 class MyApp extends StatelessWidget {
    MyApp({super.key});
 
-  final routerDelegate = BeamerDelegate(
-    transitionDelegate: const NoAnimationTransitionDelegate(),
-
-    // NOTE Second Method
-    locationBuilder: (routeInformation, _) => LoginLocation(routeInformation),
-  );
+  // final routerDelegate = BeamerDelegate(
+  //   transitionDelegate: const NoAnimationTransitionDelegate(),
+  //
+  //   // NOTE Second Method
+  //   locationBuilder: (routeInformation, _) => LoginLocation(routeInformation),
+  // );
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      routeInformationParser: BeamerParser(),
-      routerDelegate: routerDelegate,
+      // routeInformationParser: BeamerParser(),
+      // routerDelegate: routerDelegate,
       title: AppConstants.appName,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // initialRoute: LoginScreen.routeName,
-      // getPages: [
-      //   GetPage(name: LoginScreen.routeName, page: () => LoginScreen()),
-      //   GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen(), transition: Transition.rightToLeft, transitionDuration: Duration(milliseconds: 500)),
-      //   GetPage(name: CreateServerScreen.routeName, page: () => CreateServerScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
-      //   GetPage(name: EditServerScreen.routeName, page: () => EditServerScreen(), transition: Transition.rightToLeft, transitionDuration: Duration(milliseconds: 500)),
-      // ],
+      initialRoute: LoginScreen.routeName,
+      getPages: [
+        GetPage(name: LoginScreen.routeName, page: () => LoginScreen()),
+        GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
+        GetPage(name: CreateServerScreen.routeName, page: () => CreateServerScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
+        GetPage(name: EditServerScreen.routeName, page: () => EditServerScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
+      ],
     );
   }
 }

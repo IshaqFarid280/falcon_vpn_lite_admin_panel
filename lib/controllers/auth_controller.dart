@@ -143,8 +143,8 @@ class AuthController extends GetxController{
       context: context,
     ).then((value) {
       if(value == 200){
-        // Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
-        context.beamToReplacementNamed('/dashboard');
+        Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
+        //Beamer.of(context).beamToReplacementNamed('/dashboard');
       }
     });
   }

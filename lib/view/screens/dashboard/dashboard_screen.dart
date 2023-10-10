@@ -172,8 +172,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                             GestureDetector(
                               onTap: (){
-                               // Get.toNamed(CreateServerScreen.routeName);
-                                context.beamToNamed('/add-server');
+                               Get.toNamed(CreateServerScreen.routeName);
+                                //context.beamToNamed('/add-server');
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -418,10 +418,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     /// For Edit
                                                     InkWell(
                                                       onTap: (){
-                                                       // Get.toNamed(EditServerScreen.routeName, arguments: item.id);
-                                                        context.beamToNamed('/edit-server',data: {
-                                                          "id": item.id.toString()
-                                                        });
+                                                        Get.toNamed(EditServerScreen.routeName, arguments: item.id);
+                                                       //  context.beamToNamed('/edit-server',data: {
+                                                       //    "id": item.id.toString()
+                                                       //  });
                                                       },
                                                       child: Container(
                                                         height: ResponsiveUI.isDesktop(context) ? 30 : 24,
