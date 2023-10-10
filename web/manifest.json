@@ -1,6 +1,6 @@
 {
-    "name": "eye_vpn_lite_admin_panel",
-    "short_name": "eye_vpn_lite_admin_panel",
+    "name": "Eye VPN Lite Admin Panel",
+    "short_name": "Eye VPN Lite Admin Panel",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

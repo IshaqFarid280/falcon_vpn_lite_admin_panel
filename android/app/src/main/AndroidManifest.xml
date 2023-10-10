@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="eye_vpn_lite_admin_panel"
+        android:label="Eye VPN Lite Admin Panel"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
