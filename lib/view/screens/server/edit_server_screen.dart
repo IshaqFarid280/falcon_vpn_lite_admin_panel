@@ -455,7 +455,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                       cursorColor: AppColorResources.hintTextColor,
                                       keyboardType: TextInputType.text,
                                       textInputAction: TextInputAction.done,
-                                      maxLines: null,
+                                      maxLines: 7,
                                       textAlign: TextAlign.justify,
                                       style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                       decoration: InputDecoration(
