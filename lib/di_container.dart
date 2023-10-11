@@ -26,6 +26,7 @@ import 'data/repository/view_all_server_repo.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+
   /// Core
   sl.registerLazySingleton(() => DioClient(AppConstants.baseUrl, sl(), loggingInterceptor: sl(), sharedPreferences: sl()));
 

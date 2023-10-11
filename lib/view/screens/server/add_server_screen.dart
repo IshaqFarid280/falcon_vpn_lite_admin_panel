@@ -1,7 +1,5 @@
-
 import 'dart:convert';
 import 'dart:developer';
-import 'package:beamer/beamer.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/add_server_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_style.dart';
@@ -83,12 +81,9 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
           actions: [
 
             /// For Back Button
-            GestureDetector(
+            InkWell(
                 onTap: (){
                   Get.toNamed(DashboardScreen.routeName);
-                  //context.beamToNamed('/dashboard');
-                  // Beamer.of(context).beamToNamed('/dashboard');
-                  //Beamer.of(context).beamBack();
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -98,10 +93,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                   ),
                   child: Text(
                     "Back",
-                    style: myStyleOxanium(
-                        15,
-                        AppColorResources.primaryWhite,
-                        FontWeight.w600),
+                    style: myStyleOxanium(15, AppColorResources.primaryWhite, FontWeight.w600),
                   ),
                 ),
             ),
@@ -375,7 +367,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                         obscuringCharacter: '*',
                                         style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                         decoration: InputDecoration(
-                                          suffixIcon: GestureDetector(
+                                          suffixIcon: InkWell(
                                             onTap: () {
                                               addServerController.changeIcon();
                                             },

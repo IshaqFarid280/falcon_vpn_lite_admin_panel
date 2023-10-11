@@ -134,7 +134,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           SizedBox(width: 10,),
 
           /// For Log out
-          GestureDetector(
+          InkWell(
               onTap: (){
                 logoutAlert(context);
               },
@@ -169,10 +169,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   FontWeight.w600),
                             ),
 
-                            GestureDetector(
+                            InkWell(
                               onTap: (){
                                Get.toNamed(CreateServerScreen.routeName);
-                                //context.beamToNamed('/add-server');
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -397,10 +396,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             flex: 2,
                                             child: Container(
                                               padding: EdgeInsets.all(8),
-                                              //color: AppColorResources.secondaryGreenAccent,
                                               alignment: Alignment.center,
                                               child: Text("${item.config}", style: myStyleOxanium(15, AppColorResources.primaryBlack, FontWeight.w400),
                                                 maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.justify,),
                                             ),
                                           ),
@@ -418,9 +417,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     InkWell(
                                                       onTap: (){
                                                         Get.toNamed(EditServerScreen.routeName, arguments: item.id);
-                                                       //  context.beamToNamed('/edit-server',data: {
-                                                       //    "id": item.id.toString()
-                                                       //  });
                                                       },
                                                       child: Container(
                                                         height: ResponsiveUI.isDesktop(context) ? 30 : 24,

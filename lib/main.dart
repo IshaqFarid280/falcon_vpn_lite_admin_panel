@@ -20,20 +20,11 @@ void main() async{
 class MyApp extends StatelessWidget {
    MyApp({super.key});
 
-  // final routerDelegate = BeamerDelegate(
-  //   transitionDelegate: const NoAnimationTransitionDelegate(),
-  //
-  //   // NOTE Second Method
-  //   locationBuilder: (routeInformation, _) => LoginLocation(routeInformation),
-  // );
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // routeInformationParser: BeamerParser(),
-      // routerDelegate: routerDelegate,
       title: AppConstants.appName,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -42,9 +33,9 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginScreen.routeName,
       getPages: [
         GetPage(name: LoginScreen.routeName, page: () => LoginScreen()),
-        GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
-        GetPage(name: CreateServerScreen.routeName, page: () => CreateServerScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
-        GetPage(name: EditServerScreen.routeName, page: () => EditServerScreen(), transition: Transition.fadeIn, transitionDuration: Duration(milliseconds: 500)),
+        GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen(), transition: Transition.fadeIn, transitionDuration: const Duration(milliseconds: 500)),
+        GetPage(name: CreateServerScreen.routeName, page: () => CreateServerScreen(), transition: Transition.fadeIn, transitionDuration: const Duration(milliseconds: 500)),
+        GetPage(name: EditServerScreen.routeName, page: () => EditServerScreen(), transition: Transition.fadeIn, transitionDuration: const Duration(milliseconds: 500)),
       ],
     );
   }

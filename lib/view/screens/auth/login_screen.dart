@@ -1,4 +1,3 @@
-
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_style.dart';
 import 'package:eye_vpn_lite_admin_panel/view/widgets/custom_button.dart';
@@ -154,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                                           AppColorResources.hintTextColor,
                                           FontWeight.w400),
                                       decoration: InputDecoration(
-                                        suffixIcon: GestureDetector(
+                                        suffixIcon: InkWell(
                                           onTap: () {
                                             loginController.changeIcon();
                                           },
@@ -187,7 +186,8 @@ class LoginScreen extends StatelessWidget {
                                 SizedBox(height: 30,),
 
                                 /// Login Button
-                                loginController.isLoading == false?
+                                loginController.isLoading == true?
+                                CircularProgressIndicator(color: AppColorResources.primaryGreen,):
                                 CustomButton(
                                   onTap: () async{
                                     if(_formKey.currentState!.validate()){
@@ -195,7 +195,7 @@ class LoginScreen extends StatelessWidget {
                                     }
                                   },
                                   title: "Login",
-                                ):CircularProgressIndicator(color: AppColorResources.primaryGreen,),
+                                ),
                               ],
                             ),
                           ),

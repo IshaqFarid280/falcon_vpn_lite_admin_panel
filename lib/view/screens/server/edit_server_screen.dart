@@ -1,7 +1,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'package:beamer/beamer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/server_details_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
@@ -31,7 +30,6 @@ class _EditServerScreenState extends State<EditServerScreen> {
   dynamic _logoBase64;
   dynamic _pickedFile;
   dynamic _imagePath;
-
   dynamic apiImage;
 
 
@@ -94,11 +92,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
       context: context,
     ).then((value) {
       if(value == 200){
-        // editServerController.clear(context: context);
         Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: 1, paginate: 25);
-        // setState(() {
-        //   _logoBase64 = null;
-        // });
       }
     });
   }
@@ -108,9 +102,6 @@ class _EditServerScreenState extends State<EditServerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Object? id = ModalRoute.of(context)!.settings.arguments;
-
-    log("Check Server ID ======> ${id}");
 
     return WillPopScope(
       onWillPop: () async {
@@ -125,10 +116,9 @@ class _EditServerScreenState extends State<EditServerScreen> {
           actions: [
 
             /// For Back
-            GestureDetector(
+            InkWell(
               onTap: (){
                 Get.toNamed(DashboardScreen.routeName);
-               // context.beamToNamed('/dashboard');
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -415,7 +405,7 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                         obscuringCharacter: '*',
                                         style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                         decoration: InputDecoration(
-                                          suffixIcon: GestureDetector(
+                                          suffixIcon: InkWell(
                                             onTap: () {
                                               editServerController.changeIcon();
                                             },

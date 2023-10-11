@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:beamer/beamer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -144,7 +143,6 @@ class AuthController extends GetxController{
     ).then((value) {
       if(value == 200){
         Get.offNamedUntil(DashboardScreen.routeName, (route) => false);
-        //Beamer.of(context).beamToReplacementNamed('/dashboard');
       }
     });
   }
