@@ -1,8 +1,8 @@
-import 'package:beamer/beamer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/update_admin_profile_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/controllers/view_all_server_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
+import 'package:eye_vpn_lite_admin_panel/view/screens/server/add_server_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +14,7 @@ import '../../widgets/logout_alert_dialogue.dart';
 import '../../widgets/reusable_delete_alert_dialogue.dart';
 import '../../widgets/reusable_divider.dart';
 import '../responsive/responsive.dart';
+import '../server/edit_server_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String routeName = '/dashboard';
@@ -488,7 +489,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ],
                           ),
-                        ),):SizedBox.shrink(),
+                        ),): SizedBox.shrink(),
+
+                        // viewAllServerController.isLoading == true && viewAllServerController.allServerList.isEmpty?
+                        // Container(
+                        //   child: ListView.separated(
+                        //     separatorBuilder: (context, index) =>  SizedBox(height: 3,),
+                        //     itemCount: 10,
+                        //     physics: NeverScrollableScrollPhysics(),
+                        //     shrinkWrap: true,
+                        //     itemBuilder: (context, index) {
+                        //       return Shimmer.fromColors(
+                        //         baseColor: Colors.grey.shade300,
+                        //         highlightColor: Colors.grey.shade100,
+                        //         period: const Duration(milliseconds: 5000),
+                        //         child: Container(
+                        //           height: 50,
+                        //           decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(5),
+                        //             color: AppColorResources.primaryWhite,
+                        //           ),
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // ): SizedBox.shrink(),
 
                         /// For Getting new server
                         viewAllServerController.isLoading == false?

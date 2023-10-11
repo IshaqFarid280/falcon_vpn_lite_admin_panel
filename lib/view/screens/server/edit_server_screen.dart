@@ -112,291 +112,214 @@ class _EditServerScreenState extends State<EditServerScreen> {
 
     log("Check Server ID ======> ${id}");
 
-    return Scaffold(
-      backgroundColor: AppColorResources.bgColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColorResources.primaryColor,
-        title: Text("Edit Server", style: myStyleOxanium(ResponsiveUI.isDesktop(context)?18:16, AppColorResources.primaryWhite, FontWeight.w600),),
-        actions: [
+    return WillPopScope(
+      onWillPop: () async {
+        return await Get.offAndToNamed(DashboardScreen.routeName);
+      },
+      child: Scaffold(
+        backgroundColor: AppColorResources.bgColor,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: AppColorResources.primaryColor,
+          title: Text("Edit Server", style: myStyleOxanium(ResponsiveUI.isDesktop(context)?18:16, AppColorResources.primaryWhite, FontWeight.w600),),
+          actions: [
 
-          /// For Back
-          GestureDetector(
-            onTap: (){
-              Get.toNamed(DashboardScreen.routeName);
-             // context.beamToNamed('/dashboard');
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: AppColorResources.primaryGreen,
-              ),
-              child: Text(
-                "Back",
-                style: myStyleOxanium(
-                    15,
-                    AppColorResources.primaryWhite,
-                    FontWeight.w600),
+            /// For Back
+            GestureDetector(
+              onTap: (){
+                Get.toNamed(DashboardScreen.routeName);
+               // context.beamToNamed('/dashboard');
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppColorResources.primaryGreen,
+                ),
+                child: Text(
+                  "Back",
+                  style: myStyleOxanium(
+                      15,
+                      AppColorResources.primaryWhite,
+                      FontWeight.w600),
+                ),
               ),
             ),
-          ),
 
-          SizedBox(width: 12,),
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Card(
-                    elevation: 8,
-                    child: Container(
-                      width: 650,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColorResources.primaryColor,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 10,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-                              color: AppColorResources.primaryGreen,
+            SizedBox(width: 12,),
+          ],
+        ),
+        body: SafeArea(
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Card(
+                      elevation: 8,
+                      child: Container(
+                        width: 650,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: AppColorResources.primaryColor,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 10,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                                color: AppColorResources.primaryGreen,
+                              ),
                             ),
-                          ),
 
-                          Container(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              children: [
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                children: [
 
-                                Text("Edit Server", style: myStyleOxanium(18, AppColorResources.primaryWhite, FontWeight.w600), textAlign: TextAlign.center,),
+                                  Text("Edit Server", style: myStyleOxanium(18, AppColorResources.primaryWhite, FontWeight.w600), textAlign: TextAlign.center,),
 
-                                SizedBox(height: 20),
+                                  SizedBox(height: 20),
 
-                                /// For Pick Image from computer
-                                InkWell(
-                                  onTap: () {
-                                    _chooseImage();
-                                  },
-                                  child: Container(
-                                    height: ResponsiveUI.isDesktop(context) ? 90 : 80,
-                                    width: ResponsiveUI.isDesktop(context) ? 90 : 80,
-                                    alignment: Alignment.center,
-                                    child: Stack(
-                                      children: [
-                                        ClipOval(
-                                          child: _logoBase64 != null // Check if an image is selected
-                                              ? Image.memory(Uint8List.fromList(_logoBase64),
-                                            height: ResponsiveUI.isDesktop(context) ? 80 : 70,
-                                            width: ResponsiveUI.isDesktop(context) ? 80 : 70,
-                                            fit: BoxFit.cover,
-                                          ) :
-                                          Container(
-                                            alignment: Alignment.center,
-                                            height: ResponsiveUI.isDesktop(context) ? 80 : 70,
-                                            width: ResponsiveUI.isDesktop(context) ? 80 : 70,
-                                            decoration: BoxDecoration(
-                                               shape: BoxShape.rectangle,
-                                              color: AppColorResources.circleColor,
-                                              border: Border.all(width: 1, color: AppColorResources.primaryWhite),
-                                            ),
-                                            child: ClipOval(
-                                              child: CachedNetworkImage(
-                                                imageUrl: "${apiImage}",
-                                                fit: BoxFit.fill,
-                                                placeholder: (context, url) => Opacity(
-                                                  opacity: 0.8,
-                                                  child: Shimmer.fromColors(
-                                                    baseColor: AppColorResources.drawerItemColor,
-                                                    highlightColor: AppColorResources.primaryWhite,
-                                                    direction: ShimmerDirection.ltr,
-                                                    child: const SizedBox(
-                                                      height: 25,
-                                                      width: 35,
+                                  /// For Pick Image from computer
+                                  InkWell(
+                                    onTap: () {
+                                      _chooseImage();
+                                    },
+                                    child: Container(
+                                      height: ResponsiveUI.isDesktop(context) ? 90 : 80,
+                                      width: ResponsiveUI.isDesktop(context) ? 90 : 80,
+                                      alignment: Alignment.center,
+                                      child: Stack(
+                                        children: [
+                                          ClipOval(
+                                            child: _logoBase64 != null // Check if an image is selected
+                                                ? Image.memory(Uint8List.fromList(_logoBase64),
+                                              height: ResponsiveUI.isDesktop(context) ? 80 : 70,
+                                              width: ResponsiveUI.isDesktop(context) ? 80 : 70,
+                                              fit: BoxFit.cover,
+                                            ) :
+                                            Container(
+                                              alignment: Alignment.center,
+                                              height: ResponsiveUI.isDesktop(context) ? 80 : 70,
+                                              width: ResponsiveUI.isDesktop(context) ? 80 : 70,
+                                              decoration: BoxDecoration(
+                                                 shape: BoxShape.rectangle,
+                                                color: AppColorResources.circleColor,
+                                                border: Border.all(width: 1, color: AppColorResources.primaryWhite),
+                                              ),
+                                              child: ClipOval(
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${apiImage}",
+                                                  fit: BoxFit.fill,
+                                                  placeholder: (context, url) => Opacity(
+                                                    opacity: 0.8,
+                                                    child: Shimmer.fromColors(
+                                                      baseColor: AppColorResources.drawerItemColor,
+                                                      highlightColor: AppColorResources.primaryWhite,
+                                                      direction: ShimmerDirection.ltr,
+                                                      child: const SizedBox(
+                                                        height: 25,
+                                                        width: 35,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                errorWidget: (context, url, error) => Container(
-                                                  height: 25,
-                                                  width: 35,
-                                                  child: Icon(Icons.image_outlined, color: AppColorResources.primaryColor),
+                                                  errorWidget: (context, url, error) => Container(
+                                                    height: 25,
+                                                    width: 35,
+                                                    child: Icon(Icons.image_outlined, color: AppColorResources.primaryColor),
+                                                  ),
                                                 ),
                                               ),
                                             ),
+
                                           ),
-
-                                        ),
-                                        _logoBase64 != null|| apiImage != null?Positioned(
-                                          bottom: 0,
-                                          left: 0,
-                                          right: -45,
-                                          child: Container(
-                                            height: ResponsiveUI.isDesktop(context) ? 30 : 20,
-                                            width: ResponsiveUI.isDesktop(context) ? 30 : 20,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppColorResources.appBarColor,
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Icon(
-                                              Icons.camera_alt_rounded,
-                                              color: AppColorResources.primaryWhite,
-                                              size: 13,
-                                            ),
-                                          ),):SizedBox.shrink(),
-                                      ],
+                                          _logoBase64 != null|| apiImage != null?Positioned(
+                                            bottom: 0,
+                                            left: 0,
+                                            right: -45,
+                                            child: Container(
+                                              height: ResponsiveUI.isDesktop(context) ? 30 : 20,
+                                              width: ResponsiveUI.isDesktop(context) ? 30 : 20,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColorResources.appBarColor,
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Icon(
+                                                Icons.camera_alt_rounded,
+                                                color: AppColorResources.primaryWhite,
+                                                size: 13,
+                                              ),
+                                            ),):SizedBox.shrink(),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text("Upload Image", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w500),),
-                                SizedBox(height: 20,),
+                                  SizedBox(height: 10,),
+                                  Text("Upload Image", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w500),),
+                                  SizedBox(height: 20,),
 
-                                /// Server Name
-                                // Align(
-                                //   alignment: Alignment.centerLeft,
-                                //   child: Text("Server Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
-                                // ),
-                                //
-                                // SizedBox(height: 8),
-                                //
-                                // SizedBox(
-                                //   width: double.infinity,
-                                //   child: TextFormField(
-                                //     controller: editServerController.serverNameController,
-                                //     validator: (value) {
-                                //       if (value == null || value.isEmpty) {
-                                //         return 'This filed is required';
-                                //       }
-                                //       return null;
-                                //     },
-                                //     cursorColor: AppColorResources.hintTextColor,
-                                //     keyboardType: TextInputType.text,
-                                //     textInputAction: TextInputAction.next,
-                                //     style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                //     decoration: InputDecoration(
-                                //       contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                //       hintText: "Enter server name",
-                                //       hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                //       border: OutlineInputBorder(
-                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                //           borderRadius: BorderRadius.circular(5)),
-                                //       enabledBorder: OutlineInputBorder(
-                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                //           borderRadius: BorderRadius.circular(5)),
-                                //       focusedBorder: OutlineInputBorder(
-                                //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                //           borderRadius: BorderRadius.circular(5)),
-                                //     ),
-                                //   ),
-                                // ),
-                                //
-                                // SizedBox(height: 20),
+                                  /// Server Name
+                                  // Align(
+                                  //   alignment: Alignment.centerLeft,
+                                  //   child: Text("Server Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
+                                  // ),
+                                  //
+                                  // SizedBox(height: 8),
+                                  //
+                                  // SizedBox(
+                                  //   width: double.infinity,
+                                  //   child: TextFormField(
+                                  //     controller: editServerController.serverNameController,
+                                  //     validator: (value) {
+                                  //       if (value == null || value.isEmpty) {
+                                  //         return 'This filed is required';
+                                  //       }
+                                  //       return null;
+                                  //     },
+                                  //     cursorColor: AppColorResources.hintTextColor,
+                                  //     keyboardType: TextInputType.text,
+                                  //     textInputAction: TextInputAction.next,
+                                  //     style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                  //     decoration: InputDecoration(
+                                  //       contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                  //       hintText: "Enter server name",
+                                  //       hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                  //       border: OutlineInputBorder(
+                                  //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                  //           borderRadius: BorderRadius.circular(5)),
+                                  //       enabledBorder: OutlineInputBorder(
+                                  //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                  //           borderRadius: BorderRadius.circular(5)),
+                                  //       focusedBorder: OutlineInputBorder(
+                                  //           borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                  //           borderRadius: BorderRadius.circular(5)),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  //
+                                  // SizedBox(height: 20),
 
-                                /// Country Name
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Country Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
-                                ),
-
-                                SizedBox(height: 8),
-
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                    controller: editServerController.countryController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This filed is required';
-                                      }
-                                      return null;
-                                    },
-                                    cursorColor: AppColorResources.hintTextColor,
-                                    keyboardType: TextInputType.text,
-                                    textInputAction: TextInputAction.next,
-                                    style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                      hintText: "Enter country name",
-                                      hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                    ),
+                                  /// Country Name
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Country Name", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
                                   ),
-                                ),
 
-                                SizedBox(height: 20),
+                                  SizedBox(height: 8),
 
-                                /// Username
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Username", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
-                                ),
-
-                                SizedBox(height: 8),
-
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                    controller: editServerController.usernameController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This filed is required';
-                                      }
-                                      return null;
-                                    },
-                                    cursorColor: AppColorResources.hintTextColor,
-                                    keyboardType: TextInputType.text,
-                                    textInputAction: TextInputAction.next,
-                                    style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                      hintText: "Enter username",
-                                      hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(height: 20),
-
-                                /// Password Field
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Password", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400),),
-                                ),
-
-                                SizedBox(height: 8,),
-
-                                Obx(() => SizedBox(
+                                  SizedBox(
                                     width: double.infinity,
                                     child: TextFormField(
+                                      controller: editServerController.countryController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'This filed is required';
@@ -406,23 +329,10 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                       cursorColor: AppColorResources.hintTextColor,
                                       keyboardType: TextInputType.text,
                                       textInputAction: TextInputAction.next,
-                                      obscureText: editServerController.obscureText.value,
-                                      controller: editServerController.passwordController,
-                                      obscuringCharacter: '*',
                                       style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                       decoration: InputDecoration(
-                                        suffixIcon: GestureDetector(
-                                          onTap: () {
-                                            editServerController.changeIcon();
-                                          },
-                                          child: Icon(
-                                            editServerController.obscureText.value ? Icons.visibility_off_rounded : Icons.visibility,
-                                            color: AppColorResources.hintTextColor,
-                                            size: 18,
-                                          ),
-                                        ),
                                         contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                        hintText: "Enter password",
+                                        hintText: "Enter country name",
                                         hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
@@ -436,79 +346,174 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                SizedBox(height: 20),
+                                  SizedBox(height: 20),
 
-                                /// Config File
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("OVPN Config Script", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
-                                ),
+                                  /// Username
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Username", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
+                                  ),
 
-                                SizedBox(height: 8),
+                                  SizedBox(height: 8),
 
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                    controller: editServerController.configFileController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This filed is required';
-                                      }
-                                      return null;
-                                    },
-                                    cursorColor: AppColorResources.hintTextColor,
-                                    keyboardType: TextInputType.text,
-                                    textInputAction: TextInputAction.done,
-                                    maxLines: null,
-                                    textAlign: TextAlign.justify,
-                                    style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                      hintText: "Enter OVPN config script",
-                                      hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: TextFormField(
+                                      controller: editServerController.usernameController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'This filed is required';
+                                        }
+                                        return null;
+                                      },
+                                      cursorColor: AppColorResources.hintTextColor,
+                                      keyboardType: TextInputType.text,
+                                      textInputAction: TextInputAction.next,
+                                      style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                        hintText: "Enter username",
+                                        hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                            borderRadius: BorderRadius.circular(5)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                            borderRadius: BorderRadius.circular(5)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                            borderRadius: BorderRadius.circular(5)),
+                                      ),
                                     ),
                                   ),
-                                ),
 
-                                SizedBox(height: 30,),
+                                  SizedBox(height: 20),
 
-                                /// Login Button
-                                CustomButton(
-                                  onTap: () async{
-                                    if(_formKey.currentState!.validate()){
-                                      serverUpdate(context: context);
-                                    }
-                                  },
-                                  title: "Update Server",
-                                ),
-                              ],
+                                  /// Password Field
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Password", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400),),
+                                  ),
+
+                                  SizedBox(height: 8,),
+
+                                  Obx(() => SizedBox(
+                                      width: double.infinity,
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'This filed is required';
+                                          }
+                                          return null;
+                                        },
+                                        cursorColor: AppColorResources.hintTextColor,
+                                        keyboardType: TextInputType.text,
+                                        textInputAction: TextInputAction.next,
+                                        obscureText: editServerController.obscureText.value,
+                                        controller: editServerController.passwordController,
+                                        obscuringCharacter: '*',
+                                        style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                        decoration: InputDecoration(
+                                          suffixIcon: GestureDetector(
+                                            onTap: () {
+                                              editServerController.changeIcon();
+                                            },
+                                            child: Icon(
+                                              editServerController.obscureText.value ? Icons.visibility_off_rounded : Icons.visibility,
+                                              color: AppColorResources.hintTextColor,
+                                              size: 18,
+                                            ),
+                                          ),
+                                          contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                          hintText: "Enter password",
+                                          hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                              borderRadius: BorderRadius.circular(5)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                              borderRadius: BorderRadius.circular(5)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                              borderRadius: BorderRadius.circular(5)),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 20),
+
+                                  /// Config File
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("OVPN Config Script", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
+                                  ),
+
+                                  SizedBox(height: 8),
+
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: TextFormField(
+                                      controller: editServerController.configFileController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'This filed is required';
+                                        }
+                                        return null;
+                                      },
+                                      cursorColor: AppColorResources.hintTextColor,
+                                      keyboardType: TextInputType.text,
+                                      textInputAction: TextInputAction.done,
+                                      maxLines: null,
+                                      textAlign: TextAlign.justify,
+                                      style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                        hintText: "Enter OVPN config script",
+                                        hintStyle: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                            borderRadius: BorderRadius.circular(5)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                            borderRadius: BorderRadius.circular(5)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                            borderRadius: BorderRadius.circular(5)),
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 30,),
+
+                                  /// Update Button
+                                  CustomButton(
+                                    onTap: () async{
+                                      if(_formKey.currentState!.validate()){
+                                        serverUpdate(context: context);
+                                      }
+                                    },
+                                    title: "Update Server",
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
 
-                          Container(
-                            height: 10,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-                              color: AppColorResources.primaryGreen,
+                            Container(
+                              height: 10,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                                color: AppColorResources.primaryGreen,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
