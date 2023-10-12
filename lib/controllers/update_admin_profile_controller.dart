@@ -23,7 +23,7 @@ class UpdateAdminProfileController extends GetxController{
     ApiResponse apiResponse = await updateAdminProfileRepo.updateAdminProfile(email: email, name: name);
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-
+      _isLoading = false;
       Map map = apiResponse.response!.data;
       update();
 
@@ -49,6 +49,7 @@ class UpdateAdminProfileController extends GetxController{
       update();
     }
     else {
+      _isLoading = false;
       update();
       String errorMessage;
       if (apiResponse.error is String) {

@@ -194,7 +194,7 @@ class LoginScreen extends StatelessWidget {
                                       loginController.loginData(context: context);
                                     }
                                   },
-                                  title: "Login",
+                                  title: Text("Login", style: myStyleOxanium(18, AppColorResources.primaryWhite, FontWeight.w400),),
                                 ),
                               ],
                             ),

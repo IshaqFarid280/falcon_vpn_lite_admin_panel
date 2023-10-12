@@ -43,8 +43,9 @@ class AuthController extends GetxController{
     ApiResponse apiResponse = await authRepo.adminLogin(email: email, password: password);
 
     if(apiResponse.response != null && apiResponse.response!.statusCode == 200){
-      _isLoading = false;
+
       Map map = apiResponse.response!.data;
+      _isLoading = false;
 
       String token = '';
       String message = '';

@@ -57,6 +57,7 @@ class AddServerController extends GetxController{
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 201) {
 
+      _isLoading = false;
       Map map = apiResponse.response!.data;
       update();
 
@@ -82,6 +83,7 @@ class AddServerController extends GetxController{
       update();
     }
     else {
+      _isLoading = false;
       update();
       String errorMessage;
       if (apiResponse.error is String) {

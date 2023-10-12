@@ -11,7 +11,7 @@ class CustomButton extends StatelessWidget {
       this.width});
 
   Color? color;
-  String? title;
+  Widget? title;
   VoidCallback? onTap;
   double? width;
 
@@ -27,11 +27,7 @@ class CustomButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           color: color ?? AppColorResources.primaryGreen,
         ),
-        child: Text(
-          "$title",
-          style: myStyleOxanium(
-              18, AppColorResources.primaryWhite, FontWeight.w400),
-        ),
+        child: title,
       ),
     );
   }

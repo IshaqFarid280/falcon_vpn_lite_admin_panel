@@ -484,7 +484,9 @@ class _EditServerScreenState extends State<EditServerScreen> {
                                         serverUpdate(context: context);
                                       }
                                     },
-                                    title: "Update Server",
+                                    title: editServerController.isLoading == false?
+                                    Text("Update Server", style: myStyleOxanium(18, AppColorResources.primaryWhite, FontWeight.w400),)
+                                    :CircularProgressIndicator(color: AppColorResources.primaryWhite,),
                                   ),
                                 ],
                               ),

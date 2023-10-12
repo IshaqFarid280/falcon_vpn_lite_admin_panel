@@ -55,7 +55,7 @@ class EditServerController extends GetxController{
     ApiResponse apiResponse = await serverUpdateRepo.serverUpdate(id: id, country: country, username: username, password: password, config: config, image: image);
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-
+      _isLoading = false;
       Map map = apiResponse.response!.data;
       update();
 
@@ -81,6 +81,7 @@ class EditServerController extends GetxController{
       update();
     }
     else {
+      _isLoading = false;
       update();
       String errorMessage;
       if (apiResponse.error is String) {

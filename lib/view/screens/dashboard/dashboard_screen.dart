@@ -527,6 +527,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
 
+
+
+                        /// For Pagination
+                        Padding(
+                          padding: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: (){},
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 36,
+                                  width: 82,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4)),
+                                      border: Border.all(width: 1, color: AppColorResources.primaryWhite), color: AppColorResources.primaryWhite),
+                                  child: Text("Previous", style: myStyleOxanium(14, AppColorResources.primaryWhite, FontWeight.w400),),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(horizontal: 17),
+                                height: 36,
+                                color: AppColorResources.primaryGreen,
+                                child: Text("1", style: myStyleOxanium(14, AppColorResources.primaryWhite, FontWeight.w600),),
+                              ),
+                              GestureDetector(
+                                onTap: (){},
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 36,
+                                  width: 57,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                                      border: Border.all(width: 1, color: AppColorResources.primaryGreen), color: AppColorResources.primaryWhite),
+                                  child: Text("Next", style: myStyleOxanium(14, AppColorResources.primaryWhite, FontWeight.w400),),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
                       ],
                     ),
                   ),

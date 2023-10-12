@@ -422,7 +422,7 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                       cursorColor: AppColorResources.hintTextColor,
                                       keyboardType: TextInputType.text,
                                       textInputAction: TextInputAction.done,
-                                      maxLines: null,
+                                      maxLines: 7,
                                       textAlign: TextAlign.justify,
                                       style: myStyleOxanium(14, AppColorResources.hintTextColor, FontWeight.w400),
                                       decoration: InputDecoration(
@@ -451,7 +451,9 @@ class _CreateServerScreenState extends State<CreateServerScreen> {
                                         addServerData(context: context);
                                       }
                                     },
-                                    title: "Add Server",
+                                    title: addServerController.isLoading == false?
+                                    Text("Add Server", style: myStyleOxanium(18, AppColorResources.primaryWhite, FontWeight.w400),)
+                                        :CircularProgressIndicator(color: AppColorResources.primaryWhite,),
                                   ),
                                 ],
                               ),
