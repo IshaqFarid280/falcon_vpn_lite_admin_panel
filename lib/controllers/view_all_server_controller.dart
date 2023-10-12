@@ -13,17 +13,15 @@ class ViewAllServerController extends GetxController{
 
   bool _isLoading = false;
   ViewAllServerResponseModel? _viewAllServerResponseModel;
-  List<ViewAllServerData> _allServerList = [];
-  List<ViewAllServerData>? _newServerList;
+  List<ViewAllServerData>? _allServerList;
   int _page = 1;
-  int _paginate = 25;
+  int _paginate = 8;
 
 
   /// Getter
   bool get isLoading => _isLoading;
   ViewAllServerResponseModel? get viewAllServerResponseModel => _viewAllServerResponseModel;
-  List<ViewAllServerData> get allServerList => _allServerList;
-  List<ViewAllServerData>? get newServerList => _newServerList;
+  List<ViewAllServerData>? get allServerList => _allServerList;
   int get page => _page;
   int get paginate => _paginate;
 
@@ -33,7 +31,7 @@ class ViewAllServerController extends GetxController{
   /// For Reset Page
   void resetPage() {
     _page = 1;
-    _paginate = 25;
+    _paginate = 8;
     update();
   }
 
@@ -43,11 +41,17 @@ class ViewAllServerController extends GetxController{
     update();
   }
 
-  /// For Clear List
-  void clearList(){
-    _allServerList.clear();
+  /// For Page Counter
+  void pageCounterRemove({required BuildContext context}) {
+    --_page;
     update();
   }
+
+  /// For Clear List
+  // void clearList(){
+  //   _allServerList!.clear();
+  //   update();
+  // }
 
 
   /// For get all products data
@@ -62,11 +66,9 @@ class ViewAllServerController extends GetxController{
 
       _isLoading = false;
       _viewAllServerResponseModel = null;
-      _newServerList = null;
 
       _viewAllServerResponseModel = ViewAllServerResponseModel.fromJson(apiResponse.response!.data);
-      _newServerList = _viewAllServerResponseModel!.allServerList;
-      _allServerList = _allServerList + _newServerList!;
+      _allServerList = _viewAllServerResponseModel!.allServerList;
 
       update();
     } else {

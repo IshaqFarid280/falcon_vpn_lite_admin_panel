@@ -68,7 +68,7 @@ class AuthController extends GetxController{
         ));
 
       }catch(e){
-
+        rethrow;
       }
 
       if(token.isNotEmpty){

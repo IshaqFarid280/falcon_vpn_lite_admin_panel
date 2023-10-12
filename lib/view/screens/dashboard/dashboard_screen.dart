@@ -3,7 +3,6 @@ import 'package:eye_vpn_lite_admin_panel/controllers/update_admin_profile_contro
 import 'package:eye_vpn_lite_admin_panel/controllers/view_all_server_controller.dart';
 import 'package:eye_vpn_lite_admin_panel/utils/app_color_resources.dart';
 import 'package:eye_vpn_lite_admin_panel/view/screens/server/add_server_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,28 +34,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<ViewAllServerController>().resetPage();
-      Get.find<ViewAllServerController>().clearList();
+      // Get.find<ViewAllServerController>().clearList();
       final page = Get.find<ViewAllServerController>().page;
       _load(reLoad: true, context: context, pageNo: page.toString());
-      scrollController.addListener(_scrollListener);
+      // scrollController.addListener(_scrollListener);
     });
   }
 
   /// For Scroll Listener
-  void _scrollListener() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-      Get.find<ViewAllServerController>().pageCounter(context: context);
-      final page = Get.find<ViewAllServerController>().page;
-      _load(reLoad: true, context: context, pageNo: page.toString());
-      if (kDebugMode) {
-        print("scrolling");
-      }
-    }
-  }
+  // void _scrollListener() {
+  //   if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+  //     Get.find<ViewAllServerController>().pageCounter(context: context);
+  //     final page = Get.find<ViewAllServerController>().page;
+  //     _load(reLoad: true, context: context, pageNo: page.toString());
+  //     if (kDebugMode) {
+  //       print("scrolling");
+  //     }
+  //   }
+  // }
 
   /// For Load Data
   _load({required bool reLoad, required BuildContext context, required dynamic pageNo}) async{
-    await Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: pageNo.toString(), paginate: 25);
+    await Get.find<ViewAllServerController>().getAllServerData(context: context, pageNo: pageNo.toString(), paginate: 8);
     await Get.find<AdminProfileController>().getAdminProfile(context: context);
   }
 
@@ -298,18 +297,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Container(
                     padding: EdgeInsets.only(top: 112),
                     child: ListView(
-                      controller: scrollController,
+                      // controller: scrollController,
                       children: [
                         /// Table Body
+                        viewAllServerController.isLoading == false && viewAllServerController.allServerList != null?
                         Container(
                           child: ListView.separated(
                             separatorBuilder: (context, index) => SizedBox.shrink(),
-                            itemCount: viewAllServerController.allServerList.length,
+                            itemCount: viewAllServerController.allServerList!.length,
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              if (index < viewAllServerController.allServerList.length) {
-                                final item = viewAllServerController.allServerList.reversed.toList()[index];
+                              if (index < viewAllServerController.allServerList!.length) {
+                                final item = viewAllServerController.allServerList!.reversed.toList()[index];
                                 return Column(
                                   children: [
                                     Container(
@@ -471,10 +471,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               }
                             },
                           ),
-                        ),
+                        ):SizedBox.shrink(),
 
                         /// For Server List Empty
-                        viewAllServerController.isLoading == false && viewAllServerController.allServerList.isEmpty?
+                        viewAllServerController.isLoading == false && viewAllServerController.allServerList == null?
                         Center(child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           child:Column(
@@ -487,29 +487,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),): SizedBox.shrink(),
 
-                        // viewAllServerController.isLoading == true && viewAllServerController.allServerList.isEmpty?
-                        // Container(
-                        //   child: ListView.separated(
-                        //     separatorBuilder: (context, index) =>  SizedBox(height: 3,),
-                        //     itemCount: 10,
-                        //     physics: NeverScrollableScrollPhysics(),
-                        //     shrinkWrap: true,
-                        //     itemBuilder: (context, index) {
-                        //       return Shimmer.fromColors(
-                        //         baseColor: Colors.grey.shade300,
-                        //         highlightColor: Colors.grey.shade100,
-                        //         period: const Duration(milliseconds: 5000),
-                        //         child: Container(
-                        //           height: 50,
-                        //           decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(5),
-                        //             color: AppColorResources.primaryWhite,
-                        //           ),
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ): SizedBox.shrink(),
 
                         /// For Getting new server
                         viewAllServerController.isLoading == false?
@@ -528,44 +505,63 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
 
 
-
                         /// For Pagination
-                        Padding(
-                          padding: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: (){},
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 36,
-                                  width: 82,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4)),
-                                      border: Border.all(width: 1, color: AppColorResources.primaryWhite), color: AppColorResources.primaryWhite),
-                                  child: Text("Previous", style: myStyleOxanium(14, AppColorResources.primaryWhite, FontWeight.w400),),
-                                ),
+                        GetBuilder<ViewAllServerController>(
+                          builder: (viewAllServerController) {
+                            return Padding(
+                              padding: EdgeInsets.only(left: 12, top: 12, bottom: 12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      if(viewAllServerController.page > 1){
+                                        setState(() {
+                                          viewAllServerController.pageCounterRemove(context: context);
+                                          final page = viewAllServerController.page;
+                                          _load(reLoad: true, context: context, pageNo: page.toString());
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 36,
+                                      width: 82,
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4)),
+                                         color: AppColorResources.primaryWhite),
+                                      child: Text("Previous", style: myStyleOxanium(16, AppColorResources.primaryColor, FontWeight.w500),),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.symmetric(horizontal: 17),
+                                    height: 36,
+                                    color: AppColorResources.primaryGreen,
+                                    child: Text("${viewAllServerController.page}", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w600),),
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      if(viewAllServerController.page < viewAllServerController.viewAllServerResponseModel!.total/8){
+                                        setState(() {
+                                          viewAllServerController.pageCounter(context: context);
+                                          final page = viewAllServerController.page;
+                                          _load(reLoad: true, context: context, pageNo: page.toString());
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 36,
+                                      width: 57,
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                                         color: AppColorResources.primaryWhite),
+                                      child: Text("Next", style: myStyleOxanium(16, AppColorResources.primaryColor, FontWeight.w500),),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(horizontal: 17),
-                                height: 36,
-                                color: AppColorResources.primaryGreen,
-                                child: Text("1", style: myStyleOxanium(14, AppColorResources.primaryWhite, FontWeight.w600),),
-                              ),
-                              GestureDetector(
-                                onTap: (){},
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 36,
-                                  width: 57,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
-                                      border: Border.all(width: 1, color: AppColorResources.primaryGreen), color: AppColorResources.primaryWhite),
-                                  child: Text("Next", style: myStyleOxanium(14, AppColorResources.primaryWhite, FontWeight.w400),),
-                                ),
-                              ),
-                            ],
-                          ),
+                            );
+                          }
                         ),
 
                       ],

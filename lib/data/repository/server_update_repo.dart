@@ -27,7 +27,8 @@ class ServerUpdateRepo{
         AppConstants.serverUpdateUrl+id,
         data: formData,
         options: Options(headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          'Content-Type': 'multipart/form-data',
           "Authorization": "Bearer ${sharedPreferences.getString(AppConstants.token) ?? ""}",
         }),
       );

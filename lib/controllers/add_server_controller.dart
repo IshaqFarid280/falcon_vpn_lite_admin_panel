@@ -78,7 +78,7 @@ class AddServerController extends GetxController{
           backgroundColor: Theme.of(context).primaryColor,
         ));
       }catch(e){
-
+        rethrow;
       }
       update();
     }

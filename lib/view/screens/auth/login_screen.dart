@@ -17,205 +17,209 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColorResources.bgColor,
       body: SafeArea(
-        child: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Card(
-                    elevation: 8,
-                    child: Container(
-                      width: 500,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColorResources.primaryColor,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 10,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-                              color: AppColorResources.primaryGreen,
-                            ),
+        child: GetBuilder<AuthController>(
+          builder: (authController) {
+            return Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Card(
+                        elevation: 8,
+                        child: Container(
+                          width: 500,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppColorResources.primaryColor,
                           ),
-
-                          Container(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              children: [
-
-                                Image.asset('assets/images/eye_vpn_logo.png', height: 55, width: 55,),
-
-                                SizedBox(height: 10),
-
-                                Text("Login to Eye VPN Lite Admin Panel", style: myStyleOxanium(
-                                    18,
-                                    AppColorResources.primaryWhite,
-                                    FontWeight.w600),
-                                  textAlign: TextAlign.center,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 10,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                                  color: AppColorResources.primaryGreen,
                                 ),
+                              ),
 
-                                SizedBox(height: 25),
+                              Container(
+                                padding: EdgeInsets.all(15),
+                                child: Column(
+                                  children: [
 
-                                /// Email Field
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        Text("Email", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
-                                        Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400,),),
-                                      ],
-                                    )),
+                                    Image.asset('assets/images/eye_vpn_logo.png', height: 55, width: 55,),
 
-                                SizedBox(height: 8),
+                                    SizedBox(height: 10),
 
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                    controller: loginController.emailController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This filed is required.';
-                                      }
-                                      return null;
-                                    },
-                                    cursorColor: AppColorResources.hintTextColor,
-                                    keyboardType: TextInputType.emailAddress,
-                                    textInputAction: TextInputAction.next,
-                                    style: myStyleOxanium(
-                                        14,
-                                        AppColorResources.hintTextColor,
-                                        FontWeight.w400),
-                                    decoration: InputDecoration(
-                                      suffixIcon: Icon(
-                                        Icons.person,
-                                        color: AppColorResources.hintTextColor,
-                                        size: 18,
-                                      ),
-                                      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                      hintText: "Enter Your email",
-                                      hintStyle: myStyleOxanium(
-                                          14,
-                                          AppColorResources.hintTextColor,
-                                          FontWeight.w400),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                          borderRadius: BorderRadius.circular(5)),
+                                    Text("Login to Eye VPN Lite Admin Panel", style: myStyleOxanium(
+                                        18,
+                                        AppColorResources.primaryWhite,
+                                        FontWeight.w600),
+                                      textAlign: TextAlign.center,
                                     ),
-                                  ),
-                                ),
 
-                                SizedBox(height: 20),
+                                    SizedBox(height: 25),
 
-                                /// Password Field
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        Text("Password", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400),),
-                                        Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400),),
-                                      ],
-                                    ),
-                                ),
-                                SizedBox(height: 8,),
+                                    /// Email Field
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
+                                          children: [
+                                            Text("Email", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400,),),
+                                            Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400,),),
+                                          ],
+                                        )),
 
-                                Obx(
-                                      () => SizedBox(
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'This filed is required.';
-                                        }
-                                        return null;
-                                      },
-                                      cursorColor: AppColorResources.hintTextColor,
-                                      keyboardType: TextInputType.text,
-                                      textInputAction: TextInputAction.done,
-                                      obscureText: loginController.obscureText.value,
-                                      controller: loginController.passwordController,
-                                      obscuringCharacter: '*',
-                                      style: myStyleOxanium(
-                                          14,
-                                          AppColorResources.hintTextColor,
-                                          FontWeight.w400),
-                                      decoration: InputDecoration(
-                                        suffixIcon: InkWell(
-                                          onTap: () {
-                                            loginController.changeIcon();
-                                          },
-                                          child: Icon(
-                                            loginController.obscureText.value ? Icons.visibility_off_rounded : Icons.visibility,
-                                            color: AppColorResources.hintTextColor,
-                                            size: 18,
-                                          ),
-                                        ),
-                                        contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                                        hintText: "Enter Your Password",
-                                        hintStyle: myStyleOxanium(
+                                    SizedBox(height: 8),
+
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: TextFormField(
+                                        controller: loginController.emailController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'This filed is required.';
+                                          }
+                                          return null;
+                                        },
+                                        cursorColor: AppColorResources.hintTextColor,
+                                        keyboardType: TextInputType.emailAddress,
+                                        textInputAction: TextInputAction.next,
+                                        style: myStyleOxanium(
                                             14,
                                             AppColorResources.hintTextColor,
                                             FontWeight.w400),
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                            borderRadius: BorderRadius.circular(5)),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                            borderRadius: BorderRadius.circular(5)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
-                                            borderRadius: BorderRadius.circular(5)),
+                                        decoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.person,
+                                            color: AppColorResources.hintTextColor,
+                                            size: 18,
+                                          ),
+                                          contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                          hintText: "Enter Your email",
+                                          hintStyle: myStyleOxanium(
+                                              14,
+                                              AppColorResources.hintTextColor,
+                                              FontWeight.w400),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                              borderRadius: BorderRadius.circular(5)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                              borderRadius: BorderRadius.circular(5)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                              borderRadius: BorderRadius.circular(5)),
+                                        ),
                                       ),
                                     ),
-                                  ),
+
+                                    SizedBox(height: 20),
+
+                                    /// Password Field
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
+                                          children: [
+                                            Text("Password", style: myStyleOxanium(16, AppColorResources.primaryWhite, FontWeight.w400),),
+                                            Text("*", style: myStyleOxanium(16, AppColorResources.primaryRed, FontWeight.w400),),
+                                          ],
+                                        ),
+                                    ),
+                                    SizedBox(height: 8,),
+
+                                    Obx(
+                                          () => SizedBox(
+                                        width: double.infinity,
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'This filed is required.';
+                                            }
+                                            return null;
+                                          },
+                                          cursorColor: AppColorResources.hintTextColor,
+                                          keyboardType: TextInputType.text,
+                                          textInputAction: TextInputAction.done,
+                                          obscureText: loginController.obscureText.value,
+                                          controller: loginController.passwordController,
+                                          obscuringCharacter: '*',
+                                          style: myStyleOxanium(
+                                              14,
+                                              AppColorResources.hintTextColor,
+                                              FontWeight.w400),
+                                          decoration: InputDecoration(
+                                            suffixIcon: InkWell(
+                                              onTap: () {
+                                                loginController.changeIcon();
+                                              },
+                                              child: Icon(
+                                                loginController.obscureText.value ? Icons.visibility_off_rounded : Icons.visibility,
+                                                color: AppColorResources.hintTextColor,
+                                                size: 18,
+                                              ),
+                                            ),
+                                            contentPadding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                                            hintText: "Enter Your Password",
+                                            hintStyle: myStyleOxanium(
+                                                14,
+                                                AppColorResources.hintTextColor,
+                                                FontWeight.w400),
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                                borderRadius: BorderRadius.circular(5)),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                                borderRadius: BorderRadius.circular(5)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(width: 1, color: AppColorResources.borderColor),
+                                                borderRadius: BorderRadius.circular(5)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 30,),
+
+                                    /// Login Button
+                                    CustomButton(
+                                      onTap: () async{
+                                        if(_formKey.currentState!.validate()){
+                                          loginController.loginData(context: context);
+                                        }
+                                      },
+                                      title: loginController.isLoading == false?
+                                      Text("Login", style: myStyleOxanium(18, AppColorResources.primaryWhite, FontWeight.w400),)
+                                      :CircularProgressIndicator(color: AppColorResources.primaryWhite,),
+                                    ),
+                                  ],
                                 ),
+                              ),
 
-                                SizedBox(height: 30,),
-
-                                /// Login Button
-                                loginController.isLoading == true?
-                                CircularProgressIndicator(color: AppColorResources.primaryGreen,):
-                                CustomButton(
-                                  onTap: () async{
-                                    if(_formKey.currentState!.validate()){
-                                      loginController.loginData(context: context);
-                                    }
-                                  },
-                                  title: Text("Login", style: myStyleOxanium(18, AppColorResources.primaryWhite, FontWeight.w400),),
+                              Container(
+                                height: 10,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                                  color: AppColorResources.primaryGreen,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-
-                          Container(
-                            height: 10,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-                              color: AppColorResources.primaryGreen,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          }
         ),
       ),
     );

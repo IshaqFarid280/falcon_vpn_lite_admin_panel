@@ -76,7 +76,7 @@ class EditServerController extends GetxController{
           backgroundColor: Theme.of(context).primaryColor,
         ));
       }catch(e){
-
+        rethrow;
       }
       update();
     }
